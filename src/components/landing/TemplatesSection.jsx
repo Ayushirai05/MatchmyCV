@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 
 const templates = [
-
   { 
     id: 1, 
     name: "Modern Resume", 
@@ -21,6 +20,21 @@ const templates = [
 ];
 
 const TemplatesSection = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Check login status when component mounts
+  useEffect(() => {
+    const token = localStorage.getItem('userToken');
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  // Determine where the button should go
+  // If logged in -> Go to Templates Page (Builder)
+  // If NOT logged in -> Go to Login Page
+  const buttonLink = isLoggedIn ? "/templates-view" : "/login";
+
   return (
     <section className="bg-gray-50 py-20 px-6">
       <div className="max-w-7xl mx-auto text-center">
@@ -43,7 +57,6 @@ const TemplatesSection = () => {
                   alt={template.name}
                   className="w-full h-full object-cover object-top transition duration-700 group-hover:scale-105"
                   onError={(e) => {
-                
                     console.error("Failed to load:", template.image); 
                     e.target.style.display = 'none'; 
                   }}
@@ -51,7 +64,7 @@ const TemplatesSection = () => {
                
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition duration-300">
                   <Link 
-                    to="/register" 
+                    to={buttonLink} 
                     className="bg-primary hover:bg-blue-700 text-white px-8 py-3 rounded-full font-bold shadow-lg transform translate-y-4 group-hover:translate-y-0 transition duration-300"
                   >
                     Use Template
