@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-100 text-gray-800 font-sans antialiased;
+  }
+}
+
+/* --- PRINTING FIXES --- */
+@media print {
+  /* 1. Reset Page */
+  @page {
+    margin: 0mm;
+    size: A4 portrait;
+  }
+
+  /* 2. Hide Scrollbars & Standard Elements */
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white;
+  }
+
+  /* Hide everything initially */
+  body * {
+    visibility: hidden;
+  }
+
+  /* 3. Reveal ONLY the resume */
+  #resume-preview, #resume-preview * {
+    visibility: visible;
+  }
+
+  /* 4. Position the Resume */
+  #resume-preview {
+    position: absolute; /* Allows multi-page printing if content is long */
+    left: 0;
+    top: 0;
+    width: 210mm !important; /* Force A4 Width */
+    min-height: 297mm !important; /* Minimum A4 Height */
+    height: auto !important; /* Allow it to grow if content is long */
+    margin: 0 !important;
+    padding: 0 !important;
+    
+    /* Reset scaling */
+    transform: none !important;
+    box-shadow: none !important;
+    border: none !important;
+    
+    /* Force Colors */
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    background-color: white !important;
+    
+    z-index: 9999;
+  }
+}
